@@ -7,9 +7,9 @@ const {
   updateCourseById,
   deleteCourseById,
 } = require("../controllers/course.controllers");
-courseRouter.get("", getAllCourses);
+courseRouter.get("/", getAllCourses);
 courseRouter.get("/:id", getCourseById);
-courseRouter.post("", addCourse);
+courseRouter.post("/", addCourse);
 courseRouter.patch("/:id", updateCourseById);
 courseRouter.delete("/:id", deleteCourseById);
 module.exports = courseRouter;
