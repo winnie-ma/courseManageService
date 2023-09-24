@@ -7,9 +7,10 @@ const {
   updateCourseById,
   deleteCourseById,
 } = require("../controllers/course.controllers");
+const objectValidation = require("../middleware/normal/idValidation");
 courseRouter.get("/", getAllCourses);
-courseRouter.get("/:id", getCourseById);
+courseRouter.get("/:courseId", objectValidation, getCourseById);
 courseRouter.post("/", addCourse);
-courseRouter.patch("/:id", updateCourseById);
-courseRouter.delete("/:id", deleteCourseById);
+courseRouter.patch("/:courseId", objectValidation, updateCourseById);
+courseRouter.delete("/:courseId", objectValidation, deleteCourseById);
 module.exports = courseRouter;
