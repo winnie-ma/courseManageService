@@ -15,10 +15,6 @@ const addCourse = async (req, res) => {
     allowUnknown: true,
     stripUnknown: true,
   });
-  console.log(validBody);
-  // console.log(req.body);
-  // const { _id, name, description } = req.body;
-  // const course = new Course({ _id, name, description });
   const course = new Course(validBody);
   await course.save();
   res.json(course);
@@ -33,7 +29,7 @@ const getCourseById = async (req, res) => {
     .populate("students", "firstName lastName email")
     .exec();
   if (!course) {
-    res.status(404).json({ message: "Course not found" });
+    res.status(404).json({ error: "Course not found" });
     return;
   }
   res.json(course);
@@ -54,7 +50,7 @@ const updateCourseById = async (req, res) => {
     { new: true }
   ).exec();
   if (!course) {
-    res.status(404).json({ message: "Course not found" });
+    res.status(404).json({ error: "Course not found" });
     return;
   }
   res.json(course);
@@ -63,7 +59,7 @@ const deleteCourseById = async (req, res) => {
   const { courseId } = req.params;
   const course = await Course.findByIdAndDelete(courseId).exec();
   if (!course) {
-    res.status(404).json({ message: "Course not found" });
+    res.status(404).json({ error: "Course not found" });
     return;
   }
   await Student.updateMany(

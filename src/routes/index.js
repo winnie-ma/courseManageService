@@ -1,7 +1,10 @@
 const { Router } = require("express");
 const studentRouter = require("./student.routes.js");
 const courseRouter = require("./course.routes.js");
+const userRouter = require("./user.routes.js");
+const auth = require("../middleware/normal/auth.js");
 const v1Router = Router();
-v1Router.use("/students", studentRouter);
-v1Router.use("/courses", courseRouter);
+v1Router.use("/students", auth, studentRouter);
+v1Router.use("/courses", auth, courseRouter);
+v1Router.use("/users", userRouter);
 module.exports = v1Router;

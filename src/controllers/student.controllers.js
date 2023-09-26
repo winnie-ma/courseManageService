@@ -2,16 +2,6 @@ const Student = require("../models/student.model");
 const Course = require("../models/course.model");
 const Joi = require("joi");
 
-// const NotFoundException = require("../exceptions/NotFoundException");
-// const catchAllErrors = (routerHandler) => {
-//   return async (req, res, next) => {
-//     try {
-//       await routerHandler(req, res, next);
-//     } catch (error) {
-//       next(e);
-//     }
-//   };
-// };
 const addStudent = async (req, res, next) => {
   const schema = Joi.object({
     firstName: Joi.string().required(),
@@ -22,8 +12,6 @@ const addStudent = async (req, res, next) => {
     allowUnknown: true,
     stripUnknown: true,
   });
-  // const { firstName, lastName, email } = req.body;
-  //data validation
   const student = new Student(validBody);
   //save will transfer student from mongoose doc to db doc
   await student.save();
