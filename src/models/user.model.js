@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const userSchema = new Schema({
@@ -7,6 +7,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   token: { type: String },
 });
+
 userSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
@@ -14,12 +15,14 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
+
 userSchema.methods.toJSON = function () {
   const user = this;
   const userObject = user.toObject();
   delete userObject.password;
   return userObject;
 };
+
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, process.env.TOKEN_KEY, {
@@ -29,6 +32,7 @@ userSchema.methods.generateAuthToken = async function () {
   await user.save();
   return user;
 };
+
 const User = model("User", userSchema);
 
 module.exports = User;

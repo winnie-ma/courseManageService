@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const User = require("../models/user.model");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 async function userSchemaValidation(req) {
   const schema = Joi.object({
     userName: Joi.string().required(),
