@@ -15,6 +15,7 @@ async function userSchemaValidation(req) {
 
 const register = async (req, res) => {
   const validBody = await userSchemaValidation(req);
+  //for duplicate useName here, have two methods, first is to find if duplicate and deal with it before save as below, another is not deal with it here, since user model add unique index, if save duplicate, it will err and can deal with it in error middleware
   const existUser = await User.findOne({ userName: validBody.userName }).exec();
   if (existUser) {
     res.status(409).json({ error: "Duplicate username" });

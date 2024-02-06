@@ -17,20 +17,24 @@ const addStudent = async (req, res, next) => {
   await student.save();
   res.json(student);
 };
+
 const getAllStudents = async (req, res) => {
   const students = await Student.find().exec(); //db.students.find()
   res.json(students);
 };
+
 const getStudentById = async (req, res) => {
   const { studentId } = req.params;
   const student = await Student.findById(studentId).exec();
   if (!student) {
-    // throw new NotFoundException("Student not found");
+    // throw new NotFoundException("Student not found"); use this has similar same as below
+    //but here use below will not go to error middleware
     res.status(404).json({ error: "Student not found" });
     return;
   }
   res.json(student);
 };
+
 const updateStudentById = async (req, res) => {
   const { studentId } = req.params;
   const schema = Joi.object({
@@ -51,6 +55,7 @@ const updateStudentById = async (req, res) => {
   }
   res.json(student);
 };
+
 const deleteStudentById = async (req, res) => {
   const { studentId } = req.params;
   const student = await Student.findByIdAndDelete(studentId).exec();
@@ -58,13 +63,15 @@ const deleteStudentById = async (req, res) => {
     res.status(404).json({ error: "Student not found" });
     return;
   }
+  //also update the records in course
   await Course.updateMany(
     { students: student._id },
     { $pull: { courses: student._id } }
   ).exec();
   res.sendStatus(204);
 };
-//POTS /v1/students/:studentId/courses/:courseId
+
+//POST /v1/students/:studentId/courses/:courseId
 const addStudentToCourse = async (req, res) => {
   const { studentId, courseId } = req.params;
   const student = await Student.findById(studentId).exec();
@@ -75,12 +82,14 @@ const addStudentToCourse = async (req, res) => {
     });
     return;
   }
+  //set make sure the unique
   course.students.addToSet(studentId);
   student.courses.addToSet(courseId);
   await student.save();
   await course.save();
   res.json(student);
 };
+
 const removeStudentFromCourse = async (req, res) => {
   const { studentId, courseId } = req.params;
   const student = await Student.findById(studentId).exec();
@@ -97,6 +106,7 @@ const removeStudentFromCourse = async (req, res) => {
   await course.save();
   res.sendStatus(204);
 };
+
 module.exports = {
   addStudent,
   getAllStudents,

@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
+//validate failed here will all go to validationError middleware with msg if specified here
 const studentSchema = new Schema(
   {
     firstName: {
@@ -12,6 +13,7 @@ const studentSchema = new Schema(
     },
     email: {
       type: String,
+      //this validate is api of mongoose, but prefer not use it but use library like joi since use it will make model complex.
       validate: [
         {
           validator: (email) => {
