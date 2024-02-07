@@ -78,7 +78,7 @@ const addStudentToCourse = async (req, res) => {
   const course = await Course.findById(courseId).exec();
   if (!student || !course) {
     res.status(404).json({
-      error: "Student or course not fond",
+      error: "Student or course not found",
     });
     return;
   }
@@ -94,9 +94,17 @@ const removeStudentFromCourse = async (req, res) => {
   const { studentId, courseId } = req.params;
   const student = await Student.findById(studentId).exec();
   const course = await Course.findById(courseId).exec();
+  const isStudent = course.students.includes(studentId);
+  const isCourse = student.courses.includes(courseId);
   if (!student || !course) {
     res.status(404).json({
-      error: "Student or course not fond",
+      error: "Student or course not found",
+    });
+    return;
+  }
+  if (!isStudent || !isCourse) {
+    res.status(404).json({
+      error: "Student already deleted from this course",
     });
     return;
   }

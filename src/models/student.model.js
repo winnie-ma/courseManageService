@@ -13,18 +13,18 @@ const studentSchema = new Schema(
     },
     email: {
       type: String,
-      //this validate is api of mongoose, but prefer not use it but use library like joi since use it will make model complex.
-      validate: [
-        {
-          validator: (email) => {
-            // regex
-            // Joi, yup, validator.js express-validator
-            return Joi.string().email().validate(email).error === undefined;
-          },
-          // return false -> invalid -> return error msg
-          msg: "Invalid email format",
-        },
-      ],
+      //this validate is api of mongoose, but prefer not use it but use library like joi since use it will make model complex and need to set validate to true.
+      // validate: [
+      //   {
+      //     validator: (email) => {
+      //       // regex
+      //       // Joi, yup, validator.js express-validator
+      //       return Joi.string().email().validate(email).error === undefined;
+      //     },
+      //     // return false -> invalid -> return error msg
+      //     msg: "Invalid email format",
+      //   },
+      // ],
     },
     courses: [
       {
