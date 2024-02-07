@@ -5,6 +5,6 @@ const userRouter = require("./user.routes.js");
 const isAuth = require("../middleware/normal/auth.js");
 const v1Router = Router();
 v1Router.use("/students", isAuth, studentRouter);
-v1Router.use("/courses", courseRouter);
+v1Router.use("/courses", isAuth, courseRouter);
 v1Router.use("/users", userRouter);
 module.exports = v1Router;

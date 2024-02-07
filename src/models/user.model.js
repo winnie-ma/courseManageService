@@ -5,32 +5,14 @@ require("dotenv").config();
 const userSchema = new Schema({
   userName: { type: String, required: true, unique: true }, // mongoose create unique index in mongodb
   password: { type: String, required: true },
-  token: { type: String },
 });
 
-userSchema.pre("save", async function (next) {
-  const user = this;
-  if (user.isModified("password")) {
-    user.password = await bcrypt.hash(user.password, 8);
-  }
-  next();
-});
-
-userSchema.methods.toJSON = function () {
-  const user = this;
-  const userObject = user.toObject();
-  delete userObject.password;
-  return userObject;
+userSchema.methods.hashPassword = async function () {
+  this.password = await bcrypt.hash(this.password, 12);
 };
 
-userSchema.methods.generateAuthToken = async function () {
-  const user = this;
-  const token = jwt.sign({ _id: user._id.toString() }, process.env.TOKEN_KEY, {
-    expiresIn: "120s",
-  });
-  user.token = token;
-  await user.save();
-  return user;
+userSchema.methods.validatePassword = async function (password) {
+  return bcrypt.compare(password, this.password);
 };
 
 const User = model("User", userSchema);

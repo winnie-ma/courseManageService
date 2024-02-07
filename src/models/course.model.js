@@ -6,7 +6,7 @@ module.exports = model(
       alias: "code", //only exist on mongoose level not in db, virtual property
       type: String,
       required: true,
-      uppercase: true, //when call api, mongoose will update the id to upperspace and save to db
+      uppercase: true, //when call api, mongoose will update the id to upperSpace and save to db
     },
     name: {
       type: String,

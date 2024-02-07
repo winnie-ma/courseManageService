@@ -12,6 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/v1", v1Router);
+//the register order of err middleware matters
 app.use(invalidJsonError);
 app.use(validationError);
 // app.use(notFoundError);

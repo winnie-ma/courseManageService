@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const User = require("../models/user.model");
-const bcrypt = require("bcrypt");
+const { generateAuthToken } = require("../utils/jwt");
 async function userSchemaValidation(req) {
   const schema = Joi.object({
     userName: Joi.string().required(),
@@ -22,8 +22,10 @@ const register = async (req, res) => {
     return;
   }
   const user = new User(validBody);
+  await user.hashPassword();
   await user.save();
-  res.status(201).json(user);
+  const token = generateAuthToken({ _id: user._id, userName: user.userName });
+  res.status(201).json({ token });
 };
 
 const login = async (req, res) => {
@@ -33,13 +35,20 @@ const login = async (req, res) => {
     res.status(401).json({ error: "Invalid credentials" });
     return;
   }
-  const isMatch = await bcrypt.compare(validBody.password, user.password);
+  const isMatch = await user.validatePassword(validBody.password);
   if (!isMatch) {
     res.status(401).json({ error: "Invalid password" });
     return;
   }
-  const authUser = await user.generateAuthToken();
-  res.json(authUser);
+  const token = generateAuthToken({
+    _id: user._id,
+    userName: user.userName,
+    role: "admin",
+  });
+
+  res.json({
+    token,
+  });
 };
 
 module.exports = {
