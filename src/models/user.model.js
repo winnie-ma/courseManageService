@@ -1,10 +1,10 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const userSchema = new Schema({
   userName: { type: String, required: true, unique: true }, // mongoose create unique index in mongodb
   password: { type: String, required: true },
+  role: { type: String, default: "user", enum: ["user", "admin"] },
 });
 
 userSchema.methods.hashPassword = async function () {

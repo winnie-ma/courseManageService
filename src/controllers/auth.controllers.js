@@ -5,6 +5,7 @@ async function userSchemaValidation(req) {
   const schema = Joi.object({
     userName: Joi.string().required(),
     password: Joi.string().required(),
+    role: Joi.string().optional(),
   });
   const validBody = await schema.validateAsync(req.body, {
     allowUnknown: true,
@@ -24,8 +25,7 @@ const register = async (req, res) => {
   const user = new User(validBody);
   await user.hashPassword();
   await user.save();
-  const token = generateAuthToken({ _id: user._id, userName: user.userName });
-  res.status(201).json({ token });
+  res.status(201).json({ userName: user.userName, role: user.role });
 };
 
 const login = async (req, res) => {
@@ -43,11 +43,12 @@ const login = async (req, res) => {
   const token = generateAuthToken({
     _id: user._id,
     userName: user.userName,
-    role: "admin",
+    role: user.role,
   });
 
   res.json({
     token,
+    role: user.role,
   });
 };
 

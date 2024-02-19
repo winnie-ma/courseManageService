@@ -8,8 +8,11 @@ const {
   deleteCourseById,
 } = require("../controllers/course.controllers");
 const objectValidation = require("../middleware/normal/idValidation");
-courseRouter.get("/", getAllCourses);
+const roleGuard = require("../middleware/normal/roleGuard");
 courseRouter.get("/:courseId", objectValidation, getCourseById);
+
+courseRouter.use(roleGuard);
+courseRouter.get("/", getAllCourses);
 courseRouter.post("/", addCourse);
 courseRouter.patch("/:courseId", objectValidation, updateCourseById);
 courseRouter.delete("/:courseId", objectValidation, deleteCourseById);

@@ -34,7 +34,7 @@ const studentSchema = new Schema(
     ],
   },
   {
-    timestamps: true, //can add created and updated tiem to each document
+    timestamps: true, //can add created and updated time to each document
   }
 );
 const Student = model("Student", studentSchema);
