@@ -9,11 +9,12 @@ const {
 } = require("../controllers/course.controllers");
 const objectValidation = require("../middleware/normal/idValidation");
 const roleGuard = require("../middleware/normal/roleGuard");
-courseRouter.get("/:courseId", objectValidation, getCourseById);
-
-courseRouter.use(roleGuard);
 courseRouter.get("/", getAllCourses);
-courseRouter.post("/", addCourse);
+courseRouter.get("/:courseId", objectValidation, getCourseById);
 courseRouter.patch("/:courseId", objectValidation, updateCourseById);
+
+//only admin can do post and delete
+courseRouter.use(roleGuard);
+courseRouter.post("/", addCourse);
 courseRouter.delete("/:courseId", objectValidation, deleteCourseById);
 module.exports = courseRouter;

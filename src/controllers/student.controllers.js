@@ -1,13 +1,13 @@
 const Student = require("../models/student.model");
 const Course = require("../models/course.model");
 const Joi = require("joi");
+const schema = Joi.object({
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
+  email: Joi.string().email().optional(),
+});
 
 const addStudent = async (req, res, next) => {
-  const schema = Joi.object({
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
-    email: Joi.string().email().optional(),
-  });
   const validBody = await schema.validateAsync(req.body, {
     allowUnknown: true,
     stripUnknown: true,
@@ -37,11 +37,6 @@ const getStudentById = async (req, res) => {
 
 const updateStudentById = async (req, res) => {
   const { studentId } = req.params;
-  const schema = Joi.object({
-    firstName: Joi.string().optional(),
-    lastName: Joi.string().optional(),
-    email: Joi.string().email().optional(),
-  });
   const validBody = await schema.validateAsync(req.body, {
     allowUnknown: true,
     stripUnknown: true,
@@ -66,7 +61,7 @@ const deleteStudentById = async (req, res) => {
   //also update the records in course
   await Course.updateMany(
     { students: student._id },
-    { $pull: { courses: student._id } }
+    { $pull: { students: student._id } }
   ).exec();
   res.sendStatus(204);
 };

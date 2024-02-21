@@ -22,5 +22,9 @@ module.exports = model(
         ref: "Student",
       },
     ],
+    teacher: {
+      type: Schema.Types.ObjectId,
+      ref: "Teacher",
+    },
   })
 );

@@ -1,5 +1,6 @@
 const Course = require("../models/course.model");
 const Student = require("../models/student.model");
+const Teacher = require("../models/teacher.model");
 const Joi = require("joi");
 const addCourse = async (req, res) => {
   const schema = Joi.object({
@@ -70,6 +71,10 @@ const deleteCourseById = async (req, res) => {
   }
   //also need to delete records in student
   await Student.updateMany(
+    { courses: courseId },
+    { $pull: { courses: courseId } }
+  ).exec();
+  await Teacher.updateOne(
     { courses: courseId },
     { $pull: { courses: courseId } }
   ).exec();

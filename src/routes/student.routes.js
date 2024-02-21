@@ -11,6 +11,7 @@ const {
 const objectValidation = require("../middleware/normal/idValidation");
 const roleGuard = require("../middleware/normal/roleGuard");
 const studentRouter = Router();
+studentRouter.get("/", getAllStudents);
 studentRouter.get("/:studentId", objectValidation, getStudentById);
 studentRouter.patch("/:studentId", objectValidation, updateStudentById);
 studentRouter.post(
@@ -25,7 +26,6 @@ studentRouter.delete(
 );
 
 studentRouter.use(roleGuard);
-studentRouter.get("/", getAllStudents);
 studentRouter.post("/", addStudent);
 studentRouter.delete("/:studentId", objectValidation, deleteStudentById);
 module.exports = studentRouter;
