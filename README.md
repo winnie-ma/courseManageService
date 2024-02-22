@@ -27,6 +27,9 @@ This school-CMS API is a flexible and powerful tool for building a simple school
 - jsonwebtoken (authentication)
 - bcrypt (password hashing)
 - dotenv (environment variables)
+- jest (unit test framework)
+  -jest-mongodb ()
+- # supertest (test endpoints and routes on HTTP servers)
 
 ## 🚩 How to install API
 

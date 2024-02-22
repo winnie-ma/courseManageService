@@ -15,7 +15,7 @@ const addStudent = async (req, res, next) => {
   const student = new Student(validBody);
   //save will transfer student from mongoose doc to db doc
   await student.save();
-  res.json(student);
+  res.status(201).json(student);
 };
 
 const getAllStudents = async (req, res) => {
