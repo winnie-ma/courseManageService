@@ -17,18 +17,22 @@ This school-CMS API is a flexible and powerful tool for building a simple school
 
 ## 🔄 Dependencies
 
+- JavaScript
 - NodeJS
 - ExpressJS (framework Based on NodeJS/Middleware)
 - MongoDB (official MongoDB driver for Node.js)
 - Mongoose (for MongoDB object modeling)
-- JavaScript
+- helmet (secure the api with header setting)
+- morgan (track http request)
+- winston (log)
 - joi (for scheme check)
 - express-async-errors (simplify async try catch)
 - jsonwebtoken (authentication)
 - bcrypt (password hashing)
 - dotenv (environment variables)
 - jest (unit test framework)
-  -jest-mongodb ()
+- jest-mongodb (Jest preset to run MongoDB memory server for test)
+
 - # supertest (test endpoints and routes on HTTP servers)
 
 ## 🚩 How to install API

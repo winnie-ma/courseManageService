@@ -41,7 +41,6 @@ describe("/v1/students", () => {
         .post("/v1/students")
         .set("Authorization", `Bearer ${token}`)
         .send(payload);
-      console.log(res.statusCode);
       expect(res.statusCode).toBe(201);
       const student = await Student.findOne(payload).exec();
       // student will 'null' if not found
